@@ -22,7 +22,7 @@ tuple<mpz_class, mpz_class, mpz_class> extendedEuclidean(mpz_class &a, mpz_class
     while (B != 0)
     {
         mpz_class q = A / B;
-        mpz_class r = A - q * B;
+        mpz_class r = A%B;
         mpz_class tmp1 = x - q * u;
         mpz_class tmp2 = y - q * v;
         A = B;
@@ -48,8 +48,8 @@ int main()
         return 1;
     }
 
-    ofstream fout;
-    fout.open("output-gcd.csv");
+    // ofstream fout;
+    // fout.open("output-gcd.csv");
 
     // Read each line till end of file
     string line;
@@ -72,14 +72,12 @@ int main()
 
         // Print the result
         cout << "x = " << x << ", y = " << y << ", c = " << A << "\n";
-        fout << x << "," << y << "," << A << "\n";
-
+        // fout << x << "," << y << "," << A << "\n";
         // cout << "A = " << A << ", B = " << B << endl;
-
         // cout << "a = " << a << ", b = " << b << endl;
     }
 
-    fout.close();
+    // fout.close();
     fin.close();
 
     return 0;
