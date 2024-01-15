@@ -22,7 +22,7 @@ tuple<mpz_class, mpz_class, mpz_class> extendedEuclidean(mpz_class &a, mpz_class
     while (B != 0)
     {
         mpz_class q = A / B;
-        mpz_class r = A%B;
+        mpz_class r = A % B;
         mpz_class tmp1 = x - q * u;
         mpz_class tmp2 = y - q * v;
         A = B;
