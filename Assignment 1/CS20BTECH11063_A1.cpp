@@ -4,10 +4,9 @@
 
 using namespace std;
 
-tuple<mpz_class, mpz_class, mpz_class> extendedEuclidean(mpz_class &a, mpz_class &b)
+vector<mpz_class> extendedEuclidean(mpz_class &a, mpz_class &b)
 {
     mpz_class x, y, A, B, u, v;
-
     // A = max(a, b);
     // B = min(a, b);
     A = a;
@@ -33,7 +32,8 @@ tuple<mpz_class, mpz_class, mpz_class> extendedEuclidean(mpz_class &a, mpz_class
         v = tmp2;
     }
 
-    return make_tuple(x, y, A);
+    vector<mpz_class> result = {x, y, A};
+    return result;
 }
 
 int main()
@@ -65,10 +65,12 @@ int main()
         // Convert a_str, b_str to mpz_class
         mpz_class a(a_str);
         mpz_class b(b_str);
-        // mpz_class x, y, A, B, u, v;
+
         // Apply the extended euclidean algorithm
-        // tie(x, y, A) = extendedEuclidean(a, b);
-        auto [x, y, A] = extendedEuclidean(a, b);
+        vector<mpz_class> result = extendedEuclidean(a, b);
+        mpz_class x = result[0];
+        mpz_class y = result[1];
+        mpz_class A = result[2];
 
         // Print the result
         cout << "x = " << x << ", y = " << y << ", c = " << A << "\n";
