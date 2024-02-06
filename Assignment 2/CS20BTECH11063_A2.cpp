@@ -36,6 +36,7 @@ vector<mpz_class> extendedEuclidean(mpz_class &a, mpz_class &b)
     return result;
 }
 
+// Function to compute (a^b) mod n and check if a is invertible in mod n
 void arithmetic_power_zn(mpz_class &n, mpz_class &a, mpz_class &b)
 {
     mpz_class result_a_b = a;
@@ -45,10 +46,12 @@ void arithmetic_power_zn(mpz_class &n, mpz_class &a, mpz_class &b)
         b--;
     }
     cout << result_a_b;
+
+    // Check if a is invertible mod n using the extended Euclidean algorithm
     if (extendedEuclidean(n, a)[2] == 1)
     {
         cout << ", true, ";
-        // print value of a^-1
+        // Calculate a^(-1) mod n
         cout << (extendedEuclidean(a, n)[0] % n + n) % n;
         // cout << (extendedEuclidean(a, n)[0] % n);
     }
@@ -59,20 +62,22 @@ void arithmetic_power_zn(mpz_class &n, mpz_class &a, mpz_class &b)
     cout << "\n";
 }
 
+// Function to solve Chinese Remainder Theorem
 mpz_class crt(mpz_class &a, mpz_class &m, mpz_class &b, mpz_class &n)
 {
     // x = a (mod m) and x = b (mod n)
-    // x1 = m^-1 (mod n) and x2 = n^-1 (mod m)
+    // If m and n are not coprime, then return -1
     if (extendedEuclidean(m, n)[2] != 1)
     {
         return -1;
     }
+    // x1 = m^-1 (mod n) and x2 = n^-1 (mod m)
     mpz_class x1 = (extendedEuclidean(m, n)[0] % n + n) % n;
     // mpz_class x1 = (extendedEuclidean(m, n)[0] % n);
     mpz_class x2 = (extendedEuclidean(n, m)[0] % m + m) % m;
     // mpz_class x2 = (extendedEuclidean(n, m)[0] % m);
 
-    // result = m * x1 * b + n * x2 * a
+    // Compute the solution
     mpz_class result = (m * x1 * b + n * x2 * a) % (m * n);
     return result;
 }
