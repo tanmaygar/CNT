@@ -50,6 +50,7 @@ void arithmetic_power_zn(mpz_class &n, mpz_class &a, mpz_class &b)
         cout << ", true, ";
         // print value of a^-1
         cout << (extendedEuclidean(a, n)[0] % n + n) % n;
+        // cout << (extendedEuclidean(a, n)[0] % n);
     }
     else
     {
@@ -58,25 +59,28 @@ void arithmetic_power_zn(mpz_class &n, mpz_class &a, mpz_class &b)
     cout << "\n";
 }
 
-mpz_class crt(mpz_class& a, mpz_class& m, mpz_class& b, mpz_class& n)
+mpz_class crt(mpz_class &a, mpz_class &m, mpz_class &b, mpz_class &n)
 {
     // x = a (mod m) and x = b (mod n)
     // x1 = m^-1 (mod n) and x2 = n^-1 (mod m)
-    if(extendedEuclidean(m, n)[2] != 1)
+    if (extendedEuclidean(m, n)[2] != 1)
     {
         return -1;
     }
     mpz_class x1 = (extendedEuclidean(m, n)[0] % n + n) % n;
+    // mpz_class x1 = (extendedEuclidean(m, n)[0] % n);
     mpz_class x2 = (extendedEuclidean(n, m)[0] % m + m) % m;
+    // mpz_class x2 = (extendedEuclidean(n, m)[0] % m);
 
     // result = m * x1 * b + n * x2 * a
-    mpz_class result = (m * x1 * b + n * x2 * a)% (m * n);
+    mpz_class result = (m * x1 * b + n * x2 * a) % (m * n);
     return result;
 }
 
 int main()
 {
     // Opening the input file
+    cout << "---------------------- Question 1 -----------------------\n";
     ifstream fin_Q1;
     fin_Q1.open("testinput-Zn.txt");
 
@@ -111,7 +115,8 @@ int main()
 
     // fout.close();
     fin_Q1.close();
-    cout << "-------------------------------------\n";
+    cout << "---------------------- Question 1 Ended-----------------------\n";
+    cout << "---------------------- Question 1 -----------------------\n";
 
     ifstream fin_Q2;
     fin_Q2.open("testinput-crt.txt");
@@ -122,7 +127,7 @@ int main()
         return 1;
     }
 
-    while(getline(fin_Q2, line))
+    while (getline(fin_Q2, line))
     {
         istringstream input_line(line);
         string a_str, m_str, b_str, n_str;
@@ -136,10 +141,11 @@ int main()
         mpz_class b(b_str);
         mpz_class n(n_str);
 
-        cout<<crt(a, m, b, n)<<endl;
+        cout << crt(a, m, b, n) << endl;
     }
 
     fin_Q2.close();
 
+    cout << "---------------------- Question 2 Ended-----------------------\n";
     return 0;
 }
