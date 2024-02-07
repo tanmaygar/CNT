@@ -121,7 +121,7 @@ int main()
     // fout.close();
     fin_Q1.close();
     cout << "---------------------- Question 1 Ended-----------------------\n";
-    cout << "---------------------- Question 1 -----------------------\n";
+    cout << "---------------------- Question 2 -----------------------\n";
 
     ifstream fin_Q2;
     fin_Q2.open("testinput-crt.txt");
