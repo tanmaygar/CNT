@@ -9,3 +9,5 @@ $ ./main
 
 The name if input  for Q1 should be ```testinput-Zn.txt```
 The name if input  for Q2 should be ```testinput-crt.txt```
+
+Both the files must exist in the same directory as the executable as the implementation solves for both the problems.
