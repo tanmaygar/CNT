@@ -48,11 +48,13 @@ void arithmetic_power_zn(mpz_class &n, mpz_class &a, mpz_class &b)
     cout << result_a_b;
 
     // Check if a is invertible mod n using the extended Euclidean algorithm
-    if (extendedEuclidean(n, a)[2] == 1)
+    vector<mpz_class> result = extendedEuclidean(n, a);
+    if (result[2] == 1)
     {
         cout << ", true, ";
         // Calculate a^(-1) mod n
-        cout << (extendedEuclidean(a, n)[0] % n + n) % n;
+        // ax = 1 mod n and then scale x to get the positive value
+        cout << (result[1] % n + n) % n;
         // cout << (extendedEuclidean(a, n)[0] % n);
     }
     else
@@ -67,14 +69,15 @@ mpz_class crt(mpz_class &a, mpz_class &m, mpz_class &b, mpz_class &n)
 {
     // x = a (mod m) and x = b (mod n)
     // If m and n are not coprime, then return -1
-    if (extendedEuclidean(m, n)[2] != 1)
+    vector<mpz_class> gcd_vector = extendedEuclidean(m, n);
+    if (gcd_vector[2] != 1)
     {
         return -1;
     }
     // x1 = m^-1 (mod n) and x2 = n^-1 (mod m)
-    mpz_class x1 = (extendedEuclidean(m, n)[0] % n + n) % n;
+    mpz_class x1 = (gcd_vector[0] % n + n) % n;
     // mpz_class x1 = (extendedEuclidean(m, n)[0] % n);
-    mpz_class x2 = (extendedEuclidean(n, m)[0] % m + m) % m;
+    mpz_class x2 = (gcd_vector[1] % m + m) % m;
     // mpz_class x2 = (extendedEuclidean(n, m)[0] % m);
 
     // Compute the solution
