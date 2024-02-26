@@ -99,7 +99,6 @@ mpz_class normal_arithmetic_power(mpz_class a, mpz_class b)
         b /= 2;
     }
     return result;
-
 }
 
 // Function to solve Chinese Remainder Theorem
@@ -139,8 +138,8 @@ mpz_class findk(mpz_class b, mpz_class p)
 mpz_class findr(mpz_class p)
 {
     mpz_class r = 2;
-    mpz_class temp = (p-1)/2;
-    while(arithmetic_power(r, temp, p) != p - 1)
+    mpz_class temp = (p - 1) / 2;
+    while (arithmetic_power(r, temp, p) != p - 1)
     {
         r++;
     }
@@ -157,7 +156,6 @@ mpz_class findr(mpz_class p)
 //         r++;
 //     }
 // }
-
 
 mpz_class tonelli_shanks(mpz_class &a, mpz_class &p)
 {
@@ -183,9 +181,9 @@ mpz_class tonelli_shanks(mpz_class &a, mpz_class &p)
     if (k == 0)
     {
         // cout << "Solution exists\n";
-        if(x > p - x)
+        if (x > p - x)
         {
-            return p-x;
+            return p - x;
         }
         return x;
     }
@@ -202,7 +200,7 @@ mpz_class tonelli_shanks(mpz_class &a, mpz_class &p)
     {
         b = (b * S) % p;
         // x = (x * S) % p;
-        x = (x * arithmetic_power(s, normal_arithmetic_power(mpz_class(2), t - k - 1), p) )% p;
+        x = (x * arithmetic_power(s, normal_arithmetic_power(mpz_class(2), t - k - 1), p)) % p;
         k = findk(b, p);
         // mpz_class tmp_s_power = t - k - 1;
         // mpz_class tmp_s_two = 2;
@@ -211,19 +209,18 @@ mpz_class tonelli_shanks(mpz_class &a, mpz_class &p)
     }
     // cout << "Normal case\n";
 
-    //return smallest from x and p-x
+    // return smallest from x and p-x
     if (x > p - x)
     {
         return p - x;
     }
     return x;
-
 }
 
 int main()
 {
     // Opening the input file
-    
+
     ifstream fin_Q1;
     fin_Q1.open("inputSquareRoots.csv");
 
