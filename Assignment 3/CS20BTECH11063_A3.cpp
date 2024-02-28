@@ -75,6 +75,7 @@ void arithmetic_power_zn(mpz_class &n, mpz_class &a, mpz_class &b)
 //     return result_a_b;
 // }
 
+// Function to compute (a^b) mod n
 mpz_class arithmetic_power(mpz_class a, mpz_class b, mpz_class n)
 {
     mpz_class result = 1;
@@ -88,6 +89,7 @@ mpz_class arithmetic_power(mpz_class a, mpz_class b, mpz_class n)
     return result;
 }
 
+// Function to compute (a^b)
 mpz_class normal_arithmetic_power(mpz_class a, mpz_class b)
 {
     mpz_class result = 1;
@@ -135,6 +137,7 @@ mpz_class findk(mpz_class b, mpz_class p)
     return k;
 }
 
+// Function to find r such that r^((p-1)/2) = -1 mod p
 mpz_class findr(mpz_class p)
 {
     mpz_class r = 2;
@@ -157,6 +160,7 @@ mpz_class findr(mpz_class p)
 //     }
 // }
 
+// Function to find the solution using Tonelli-Shanks algorithm
 mpz_class tonelli_shanks(mpz_class &a, mpz_class &p)
 {
     mpz_class m = p - 1;
