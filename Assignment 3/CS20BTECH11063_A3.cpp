@@ -75,7 +75,7 @@ void arithmetic_power_zn(mpz_class &n, mpz_class &a, mpz_class &b)
 //     return result_a_b;
 // }
 
-// Function to compute (a^b) mod n
+// Function to compute (a^b) mod n using fast exponentiation
 mpz_class arithmetic_power(mpz_class a, mpz_class b, mpz_class n)
 {
     mpz_class result = 1;
@@ -89,7 +89,7 @@ mpz_class arithmetic_power(mpz_class a, mpz_class b, mpz_class n)
     return result;
 }
 
-// Function to compute (a^b)
+// Function to compute (a^b) using fast exponentiation
 mpz_class normal_arithmetic_power(mpz_class a, mpz_class b)
 {
     mpz_class result = 1;
@@ -141,8 +141,8 @@ mpz_class findk(mpz_class b, mpz_class p)
 mpz_class findr(mpz_class p)
 {
     mpz_class r = 2;
-    mpz_class temp = (p - 1) / 2;
-    while (arithmetic_power(r, temp, p) != p - 1)
+    // mpz_class temp = (p - 1) / 2;
+    while (arithmetic_power(r, (p - 1) / 2, p) != p - 1)
     {
         r++;
     }
