@@ -7,4 +7,4 @@ $ g++ CS20BTECH11063_A3.cpp -lgmpxx -lgmp -o main
 $ ./main
 ```
 
-The name if input file should be ```inputSquareRoots.csv```
+The name of input file should be ```inputSquareRoots.csv```
