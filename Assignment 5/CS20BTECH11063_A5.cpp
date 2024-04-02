@@ -482,6 +482,79 @@ void print_poly(vector<mpz_class> &a)
     return;
 }
 
+void print_poly_2(vector<mpz_class> &a)
+{
+    int degree = a.size() - 1;
+    if (degree == 0)
+    {
+        cout << a[0] << endl;
+        return;
+    }
+    if(degree == 1)
+    {
+        // 1 must not be printed before x
+        if(a[1] == 1)
+        {
+            cout << "x";
+        }
+        else
+        {
+            cout << a[1] << "*x";
+        }
+        if(a[0] != 0)
+        {
+            cout << " + " << a[0];
+        }
+        else
+        {
+            // cout << "\n";
+        }
+        // cout << a[1] << "x + " << a[0] << endl;
+        return;
+    }
+    if(a[degree] == 1)
+    {
+        cout << "x^" << degree;
+    }
+    else
+    {
+        cout << a[degree] << "*x^" << degree;
+    }
+    for (int i = degree - 1; i > 1; i--)
+    {
+        if (a[i] != 0)
+        {
+            if(a[i] == 1)
+            {
+                cout << " + x^" << i;
+            }
+            else
+            {
+                cout << " + " << a[i] << "*x^" << i;
+            }
+            // cout << " + " << a[i] << "x^" << i;
+        }
+    }
+    if (a[1] != 0)
+    {
+        if(a[1] == 1)
+        {
+            cout << " + x";
+        }
+        else
+        {
+            cout << " + " << a[1] << "*x";
+        }
+    }
+    if (a[0] != 0)
+    {
+        cout << " + " << a[0];
+    }
+    // cout << "\n";
+
+    return;
+}
+
 // Function to make the polynomial monic
 vector<mpz_class> make_monic(vector<mpz_class> f, mpz_class &p)
 {
@@ -507,48 +580,66 @@ vector<mpz_class> derivative_poly(vector<mpz_class> f, mpz_class &p)
     return make_monic(result, p);
 }
 
+// // Function to find square free part of a polynomial
+// vector<mpz_class> square_free_part(vector<mpz_class> f, mpz_class &p)
+// {
+//     vector<mpz_class> g = f;
+//     vector<mpz_class> F = f;
+//     vector<mpz_class> h;
+//     while (g.size() > 1)
+//     {
+//         h = g;
+//         g = derivative_poly(g, p);
+//     }
+//     // if h belongs to Zp then return f / gcd(f, f')
+//     if (h.size() == 1)
+//     {
+//         vector<mpz_class> gcd = extendedEuclideanPoly(f, derivative_poly(f, p), p)[2];
+//         return make_monic(divide_poly(f, gcd, p), p);
+//     }
+//     F = divide_poly(F, h, p);
+//     // if h(x) = H(x^p) then recurse
+//     // if(h.size() == 2)
+//     // {
+//     //     vector<mpz_class> H = {h[0], 0, h[1]};
+//     //     return square_free_part(H, p);
+//     // }
+//     vector<mpz_class> H(h.size(), 0);
+//     for (int i = 0; i < h.size(); i++)
+//     {
+//         mpz_class coeff = h[i];
+//         for (int j = 0; j < i; j++)
+//         {
+//             coeff *= p;
+//         }
+//         H[i] = coeff;
+//     }
+//     if (H == h)
+//     {
+//         h = square_free_part(H, p);
+//     }
+//     F = divide_poly(multiply_poly(h, F, p), extendedEuclideanPoly(F, derivative_poly(F, p), p)[2], p);
+//     F = make_monic(F, p);
+//     return F;
+// }
+
 // Function to find square free part of a polynomial
-vector<mpz_class> square_free_part(vector<mpz_class> f, mpz_class &p)
+vector<mpz_class> square_free_poly(vector<mpz_class> f, mpz_class &p)
 {
     vector<mpz_class> g = f;
-    vector<mpz_class> F = f;
     vector<mpz_class> h;
-    while (g.size() > 1)
+    while(true)
     {
-        h = g;
-        g = derivative_poly(g, p);
-    }
-    // if h belongs to Zp then return f / gcd(f, f')
-    if (h.size() == 1)
-    {
-        vector<mpz_class> gcd = extendedEuclideanPoly(f, derivative_poly(f, p), p)[2];
-        return make_monic(divide_poly(f, gcd, p), p);
-    }
-    F = divide_poly(F, h, p);
-    // if h(x) = H(x^p) then recurse
-    // if(h.size() == 2)
-    // {
-    //     vector<mpz_class> H = {h[0], 0, h[1]};
-    //     return square_free_part(H, p);
-    // }
-    vector<mpz_class> H(h.size(), 0);
-    for (int i = 0; i < h.size(); i++)
-    {
-        mpz_class coeff = h[i];
-        for (int j = 0; j < i; j++)
+        h = extendedEuclideanPoly(g, derivative_poly(g, p), p)[2];
+        if(h.size() == 1)
         {
-            coeff *= p;
+            break;
         }
-        H[i] = coeff;
+        g = divide_poly(g, h, p);
     }
-    if (H == h)
-    {
-        h = square_free_part(H, p);
-    }
-    F = divide_poly(multiply_poly(h, F, p), extendedEuclideanPoly(F, derivative_poly(F, p), p)[2], p);
-    F = make_monic(F, p);
-    return F;
+    return make_monic(g, p);
 }
+
 
 // // Function to calculate f(x) mod g(x)
 vector<mpz_class> modulo_poly(vector<mpz_class> f, vector<mpz_class> g, mpz_class p)
@@ -583,15 +674,17 @@ vector<mpz_class> power_poly(vector<mpz_class> f, mpz_class power, vector<mpz_cl
     return result;
 }
 
-vector<vector<mpz_class>> distinct_degree_factor(vector<mpz_class> f, mpz_class p)
+vector<vector<mpz_class>> distinct_degree_factor(vector<mpz_class> f, mpz_class p, bool is_square_free = true)
 {
-    // vector<mpz_class> square_free_f = square_free_part(f, p);
+    if(!is_square_free)
+    {
+        vector<mpz_class> square_free_f = square_free_poly(f, p);
     // cout << "f(x) = ";
     // print_poly(f);
-    // cout << "square free f(x) = ";
-    // print_poly(square_free_f);
-    // f = square_free_f;
-    // mpz_class i = 1;
+    cout << "square free f(x) = ";
+    print_poly(square_free_f);
+    f = square_free_f;
+    }
     vector<vector<mpz_class>> result;
     mpz_class d = 1;
     // h(x) = x
@@ -778,6 +871,7 @@ int main(int argc, char const *argv[])
             }
         }
         // print the irreducible factors
+        cout << "f(x) = ";
         for (auto it = irreducible_factors.begin(); it != irreducible_factors.end(); it++)
         {
             for (int i = 0; i < it->second.size(); i++)
@@ -787,11 +881,11 @@ int main(int argc, char const *argv[])
                     cout << " * ";
                 }
                 cout << "(";
-                print_poly(it->second[i]);
+                print_poly_2(it->second[i]);
                 cout << ")";
             }
         }
-
+        cout << "\n\n";
         // break;
     }
 
