@@ -423,7 +423,7 @@ void print_poly(vector<mpz_class> &a)
         }
         else
         {
-            cout << a[1] << "x";
+            cout << a[1] << "*x";
         }
         if(a[0] != 0)
         {
@@ -442,7 +442,7 @@ void print_poly(vector<mpz_class> &a)
     }
     else
     {
-        cout << a[degree] << "x^" << degree;
+        cout << a[degree] << "*x^" << degree;
     }
     for (int i = degree - 1; i > 1; i--)
     {
@@ -454,7 +454,7 @@ void print_poly(vector<mpz_class> &a)
             }
             else
             {
-                cout << " + " << a[i] << "x^" << i;
+                cout << " + " << a[i] << "*x^" << i;
             }
             // cout << " + " << a[i] << "x^" << i;
         }
@@ -467,7 +467,7 @@ void print_poly(vector<mpz_class> &a)
         }
         else
         {
-            cout << " + " << a[1] << "x";
+            cout << " + " << a[1] << "*x";
         }
     }
     if (a[0] != 0)
