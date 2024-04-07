@@ -236,7 +236,7 @@ vector<mpz_class> add_poly(vector<mpz_class> a, vector<mpz_class> b, mpz_class &
         result[i] = (result[i] + b[i] + p) % p;
     }
     // Remove highest degree terms if they are 0
-    while(result[result.size() - 1] == 0 && result.size() > 0)
+    while (result[result.size() - 1] == 0 && result.size() > 0)
     {
         result.pop_back();
     }
@@ -244,7 +244,7 @@ vector<mpz_class> add_poly(vector<mpz_class> a, vector<mpz_class> b, mpz_class &
     // {
     //     result.pop_back();
     // }
-    if(result.size() == 0)
+    if (result.size() == 0)
     {
         result.push_back(0);
     }
@@ -263,7 +263,7 @@ vector<mpz_class> subtract_poly(vector<mpz_class> a, vector<mpz_class> b, mpz_cl
     {
         result[i] = (result[i] - b[i] + p) % p;
     }
-    while(result[result.size() - 1] == 0 && result.size() > 0)
+    while (result[result.size() - 1] == 0 && result.size() > 0)
     {
         result.pop_back();
     }
@@ -271,7 +271,7 @@ vector<mpz_class> subtract_poly(vector<mpz_class> a, vector<mpz_class> b, mpz_cl
     // {
     //     result.pop_back();
     // }
-    if(result.size() == 0)
+    if (result.size() == 0)
     {
         result.push_back(0);
     }
@@ -289,7 +289,7 @@ vector<mpz_class> multiply_poly(vector<mpz_class> a, vector<mpz_class> b, mpz_cl
             result[i + j] = (result[i + j] + (a[i] * b[j]) + p) % p;
         }
     }
-    while(result[result.size() - 1] == 0 && result.size() > 0)
+    while (result[result.size() - 1] == 0 && result.size() > 0)
     {
         result.pop_back();
     }
@@ -297,7 +297,7 @@ vector<mpz_class> multiply_poly(vector<mpz_class> a, vector<mpz_class> b, mpz_cl
     // {
     //     result.pop_back();
     // }
-    if(result.size() == 0)
+    if (result.size() == 0)
     {
         result.push_back(0);
     }
@@ -312,20 +312,20 @@ vector<mpz_class> divide_poly(vector<mpz_class> a, vector<mpz_class> b, mpz_clas
     int degB = b.size() - 1;
     // print_poly(remainder);
     // If degreeA is less than degreeB then return 0 quotient
-    if(degA < degB)
+    if (degA < degB)
     {
         vector<mpz_class> quotient = {0};
         return quotient;
     }
     vector<mpz_class> quotient(degA - degB + 1, 0);
-    
+
     // If b is a constant then modify A and return
-    if(degB == 0)
+    if (degB == 0)
     {
         // cout << "degB = 0\n";
         mpz_class b_inv = (extendedEuclidean(b[0], p)[0] % p + p) % p;
         // cout << b_inv << endl;
-        for(int i = 0; i < a.size(); i++)
+        for (int i = 0; i < a.size(); i++)
         {
             quotient[i] = (a[i] * b_inv) % p;
         }
@@ -396,7 +396,7 @@ vector<vector<mpz_class>> extendedEuclideanPoly(vector<mpz_class> a, vector<mpz_
         // cout << "v(x) = "; print_poly(v);
         // cout << "tmp1(x) = "; print_poly(tmp1);
         // cout << "tmp2(x) = "; print_poly(tmp2);
-        if(B.size() == 1 && B[0] == 0)
+        if (B.size() == 1 && B[0] == 0)
         {
             break;
         }
@@ -421,10 +421,10 @@ void print_poly(vector<mpz_class> &a)
         cout << a[0] << endl;
         return;
     }
-    if(degree == 1)
+    if (degree == 1)
     {
         // 1 must not be printed before x
-        if(a[1] == 1)
+        if (a[1] == 1)
         {
             cout << "x";
         }
@@ -432,7 +432,7 @@ void print_poly(vector<mpz_class> &a)
         {
             cout << a[1] << "*x";
         }
-        if(a[0] != 0)
+        if (a[0] != 0)
         {
             cout << " + " << a[0] << endl;
         }
@@ -443,7 +443,7 @@ void print_poly(vector<mpz_class> &a)
         // cout << a[1] << "x + " << a[0] << endl;
         return;
     }
-    if(a[degree] == 1)
+    if (a[degree] == 1)
     {
         cout << "x^" << degree;
     }
@@ -455,7 +455,7 @@ void print_poly(vector<mpz_class> &a)
     {
         if (a[i] != 0)
         {
-            if(a[i] == 1)
+            if (a[i] == 1)
             {
                 cout << " + x^" << i;
             }
@@ -468,7 +468,7 @@ void print_poly(vector<mpz_class> &a)
     }
     if (a[1] != 0)
     {
-        if(a[1] == 1)
+        if (a[1] == 1)
         {
             cout << " + x";
         }
@@ -491,7 +491,7 @@ int main(int argc, char const *argv[])
     // Opening the input file
     // ifstream fin_Q1;
     // fin_Q1.open("input-polygcd1.csv");
-    if(argc != 2)
+    if (argc != 2)
     {
         cout << "Error: " << argv[0] << " <input-file>\n";
         return 1;
@@ -530,7 +530,6 @@ int main(int argc, char const *argv[])
     }
     // cout << "\n";
 
-
     getline(fin_Q1, line);
     istringstream input_line2(line);
     int degree2;
@@ -553,7 +552,7 @@ int main(int argc, char const *argv[])
     print_poly(f);
     cout << "g(x) = ";
     print_poly(g);
-    
+
     vector<vector<mpz_class>> result = extendedEuclideanPoly(f, g, p);
     vector<mpz_class> u = result[0];
     vector<mpz_class> v = result[1];
