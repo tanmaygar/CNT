@@ -304,12 +304,14 @@ vector<mpz_class> multiply_poly(vector<mpz_class> a, vector<mpz_class> b, mpz_cl
     return result;
 }
 
+// Function to divide two polynomials
 vector<mpz_class> divide_poly(vector<mpz_class> a, vector<mpz_class> b, mpz_class &p)
 {
     vector<mpz_class> remainder = a;
     int degA = a.size() - 1;
     int degB = b.size() - 1;
     // print_poly(remainder);
+    // If degreeA is less than degreeB then return 0 quotient
     if(degA < degB)
     {
         vector<mpz_class> quotient = {0};
@@ -317,6 +319,7 @@ vector<mpz_class> divide_poly(vector<mpz_class> a, vector<mpz_class> b, mpz_clas
     }
     vector<mpz_class> quotient(degA - degB + 1, 0);
     
+    // If b is a constant then modify A and return
     if(degB == 0)
     {
         // cout << "degB = 0\n";
@@ -329,13 +332,17 @@ vector<mpz_class> divide_poly(vector<mpz_class> a, vector<mpz_class> b, mpz_clas
         return quotient;
     }
 
+    // long division of polynomial
     while (degA >= degB)
     {
+        // add the coefficient of leading term to term
         mpz_class b_inv = (extendedEuclidean(b[degB], p)[0] % p + p) % p;
         mpz_class lead_coeff = (remainder[degA] * b_inv) % p;
         vector<mpz_class> term(degA - degB + 1, 0);
         term[degA - degB] = lead_coeff;
+        // update quotient to include the new term
         quotient = add_poly(quotient, term, p);
+        // subtract the term from the remainder and update it
         remainder = subtract_poly(remainder, multiply_poly(b, term, p), p);
         degA = remainder.size() - 1;
     }
