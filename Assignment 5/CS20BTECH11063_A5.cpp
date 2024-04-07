@@ -315,20 +315,20 @@ vector<mpz_class> divide_poly(vector<mpz_class> a, vector<mpz_class> b, mpz_clas
     int degB = b.size() - 1;
     // print_poly(remainder);
     // If degreeA is less than degreeB then return 0 quotient
-    if(degA < degB)
+    if (degA < degB)
     {
         vector<mpz_class> quotient = {0};
         return quotient;
     }
     vector<mpz_class> quotient(degA - degB + 1, 0);
-    
+
     // If b is a constant then modify A and return
-    if(degB == 0)
+    if (degB == 0)
     {
         // cout << "degB = 0\n";
         mpz_class b_inv = (extendedEuclidean(b[0], p)[0] % p + p) % p;
         // cout << b_inv << endl;
-        for(int i = 0; i < a.size(); i++)
+        for (int i = 0; i < a.size(); i++)
         {
             quotient[i] = (a[i] * b_inv) % p;
         }
@@ -424,10 +424,10 @@ void print_poly(vector<mpz_class> &a)
         cout << a[0] << endl;
         return;
     }
-    if(degree == 1)
+    if (degree == 1)
     {
         // 1 must not be printed before x
-        if(a[1] == 1)
+        if (a[1] == 1)
         {
             cout << "x";
         }
@@ -435,7 +435,7 @@ void print_poly(vector<mpz_class> &a)
         {
             cout << a[1] << "*x";
         }
-        if(a[0] != 0)
+        if (a[0] != 0)
         {
             cout << " + " << a[0] << endl;
         }
@@ -446,7 +446,7 @@ void print_poly(vector<mpz_class> &a)
         // cout << a[1] << "x + " << a[0] << endl;
         return;
     }
-    if(a[degree] == 1)
+    if (a[degree] == 1)
     {
         cout << "x^" << degree;
     }
@@ -458,7 +458,7 @@ void print_poly(vector<mpz_class> &a)
     {
         if (a[i] != 0)
         {
-            if(a[i] == 1)
+            if (a[i] == 1)
             {
                 cout << " + x^" << i;
             }
@@ -471,7 +471,7 @@ void print_poly(vector<mpz_class> &a)
     }
     if (a[1] != 0)
     {
-        if(a[1] == 1)
+        if (a[1] == 1)
         {
             cout << " + x";
         }
@@ -497,10 +497,10 @@ void print_poly_2(vector<mpz_class> &a)
         cout << a[0] << endl;
         return;
     }
-    if(degree == 1)
+    if (degree == 1)
     {
         // 1 must not be printed before x
-        if(a[1] == 1)
+        if (a[1] == 1)
         {
             cout << "x";
         }
@@ -508,7 +508,7 @@ void print_poly_2(vector<mpz_class> &a)
         {
             cout << a[1] << "*x";
         }
-        if(a[0] != 0)
+        if (a[0] != 0)
         {
             cout << " + " << a[0];
         }
@@ -519,7 +519,7 @@ void print_poly_2(vector<mpz_class> &a)
         // cout << a[1] << "x + " << a[0] << endl;
         return;
     }
-    if(a[degree] == 1)
+    if (a[degree] == 1)
     {
         cout << "x^" << degree;
     }
@@ -531,7 +531,7 @@ void print_poly_2(vector<mpz_class> &a)
     {
         if (a[i] != 0)
         {
-            if(a[i] == 1)
+            if (a[i] == 1)
             {
                 cout << " + x^" << i;
             }
@@ -544,7 +544,7 @@ void print_poly_2(vector<mpz_class> &a)
     }
     if (a[1] != 0)
     {
-        if(a[1] == 1)
+        if (a[1] == 1)
         {
             cout << " + x";
         }
@@ -635,10 +635,10 @@ vector<mpz_class> square_free_poly(vector<mpz_class> f, mpz_class &p)
 {
     vector<mpz_class> g = f;
     vector<mpz_class> h;
-    while(true)
+    while (true)
     {
         h = extendedEuclideanPoly(g, derivative_poly(g, p), p)[2];
-        if(h.size() == 1)
+        if (h.size() == 1)
         {
             break;
         }
@@ -646,7 +646,6 @@ vector<mpz_class> square_free_poly(vector<mpz_class> f, mpz_class &p)
     }
     return make_monic(g, p);
 }
-
 
 // // Function to calculate f(x) mod g(x)
 vector<mpz_class> modulo_poly(vector<mpz_class> f, vector<mpz_class> g, mpz_class p)
@@ -681,25 +680,29 @@ vector<mpz_class> power_poly(vector<mpz_class> f, mpz_class power, vector<mpz_cl
     return result;
 }
 
+// Function to calculate distinct degree factorization
 vector<vector<mpz_class>> distinct_degree_factor(vector<mpz_class> f, mpz_class p, bool is_square_free = true)
 {
-    if(!is_square_free)
+    if (!is_square_free)
     {
         vector<mpz_class> square_free_f = square_free_poly(f, p);
-    // cout << "f(x) = ";
-    // print_poly(f);
-    cout << "square free f(x) = ";
-    print_poly(square_free_f);
-    f = square_free_f;
+        // cout << "f(x) = ";
+        // print_poly(f);
+        cout << "square free f(x) = ";
+        print_poly(square_free_f);
+        f = square_free_f;
     }
     vector<vector<mpz_class>> result;
     mpz_class d = 1;
     // h(x) = x
     vector<mpz_class> h = {0, 1};
+
     while (d < f.size())
     {
+        // calculate power of h as modulo f
         // h := h^p mod f;
         h = power_poly(h, p, f, p);
+        // use gcd property to find ith degree factor
         // g := gcd(h - x, f);
         vector<mpz_class> g = extendedEuclideanPoly(subtract_poly(h, {0, 1}, p), f, p)[2];
         g = make_monic(g, p);
@@ -746,7 +749,7 @@ set<vector<mpz_class>> get_irreducible_factor_poly(vector<mpz_class> f, int i, m
     g = make_monic(g, p);
     // cout << "g(x) = ";
     // print_poly(g);
-    while(g.size() == 1)
+    while (g.size() == 1)
     {
         g = generate_poly(i, p);
         g = make_monic(g, p);
@@ -764,7 +767,7 @@ set<vector<mpz_class>> get_irreducible_factor_poly(vector<mpz_class> f, int i, m
         // print_poly(g);
         // vector<mpz_class> inner_g = power_poly(g, (normal_arithmetic_power(p, i) - 1) / 2, f, p) - vector<mpz_class>{1};
         vector<mpz_class> inner_g = subtract_poly(power_poly(g, (normal_arithmetic_power(p, i) - 1) / 2, f, p), {1}, p);
-        
+
         h1 = extendedEuclideanPoly(f, inner_g, p)[2];
         h1 = make_monic(h1, p);
         h2 = divide_poly(f, h1, p);
